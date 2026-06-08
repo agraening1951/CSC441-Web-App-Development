@@ -2,16 +2,16 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    background-color: white;
 }
 header {
-    background-color: #a2edde;
+    background-color: #F2DBE0;
     color: #333;
     padding: 10px 0;
     text-align: center;
 }
 nav {
-    background-color: #b4de83;
+    background-color: #E9F0E9;
     overflow: hidden;
 }
 nav ul {
@@ -31,28 +31,47 @@ nav a {
     text-decoration: none;
 }
 nav a:hover {    
-    background-color: #ffaec9;
+    background-color: #DBDBDB;
     color: black;
 }
 main {
     padding: 20px;
 }
 button {
-    background-color: #ffd7a4;
+    background-color: #F2DBE0;
     color: #333;
     border: none;
     padding: 10px 20px;
     cursor: pointer;
 }
 button:hover { 
-    background-color: #ffaec9;
+    background-color: #DBDBDB;
 }
 footer {
-    background-color: #a2edde;
+    background-color: #E9F0E9;
     color: #333;
     text-align: center;
     padding: 10px 0;
     position: fixed;
     width: 100%;
     bottom: 0;
+}
+#welcome {
+    text-align: center;
+    margin-top: 50px;
+    background-color: #FCFCF6;
+    border: 1px solid #DBDBDB;
+}
+img.header-image {
+    width: 100%;
+    height: 300px;
+    display: block;
+    object-fit: cover;
+}
+#about {
+    margin: 20px auto;
+    padding: 20px;
+    width: 80%;
+    background-color: #FCFCF6;
+    border: 1px solid #DBDBDB;
 }
