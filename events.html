@@ -73,10 +73,29 @@
 				<p><strong>Time:</strong> 9:00am-2:00pm</p>
 				<p><strong>Location:</strong> La Jolla</p>
 			</div>
+            <div id = "newEvents"></div>
 
 		</section>
 	</main>
 
-	<script src="events.js"></script>
+	<script>
+window.onload = function() {
+
+	const savedEvents = JSON.parse(localStorage.getItem("events")) || [];
+	const container = document.getElementById("newEvents");
+
+	savedEvents.forEach(event => {
+		const card = document.createElement("div");
+		card.className = `event-card ${event.category}`;
+		card.innerHTML = `
+			<h2>${event.name}</h2>
+			<p><strong>Date:</strong> ${event.date}</p>
+			<p><strong>Time:</strong> ${event.time}</p>
+			<p><strong>Location:</strong> ${event.location}</p>
+		`;
+		container.appendChild(card);
+	});
+};
+</script>
 </body>
 </html>
