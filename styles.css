@@ -5,7 +5,7 @@ body {
     background-color: white;
 }
 header {
-    background-color: #F2DBE0;
+    background-color: #0fb09a;
     color: #333;
     padding: 10px 0;
     text-align: center;
@@ -102,4 +102,22 @@ textarea {
     padding: 10px;
     box-sizing: border-box;
     resize: vertical;
+}
+.event-card a {
+    color: #dc9522;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.event-card a:hover {
+    text-decoration: underline;
+}
+.event-card h2 {
+    color: #0077b6;
+}
+.event-card h2 {
+    color: rgb(239, 241, 136);
+    background-color: #0a0a0a;
+    padding: 10px;
+    border-radius: 5px;
 }
