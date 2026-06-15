@@ -66,7 +66,7 @@
     <div class="form-container">
         <h2>Add a New Event</h2>
         <p>Submit a local San Diego event.</p>
-        <form id="eventForm">
+        <form action="/add-event" method="POST">
             <fieldset>
                 <legend>Event Information</legend>
                 <div class="form-group">
@@ -88,6 +88,7 @@
                 <div class="form-group">
                 <label for="eventDescription">Description</label>
                 <textarea id="eventDescription"
+                        name="eventDescription"
                         rows="4"
                         placeholder="Enter a brief event description..."
                         required></textarea>
@@ -106,21 +107,32 @@
         </form>
         <a class="back-link" href="events.html">Back to Events Page</a>
     </div>
+    
     <script>
-        document.getElementById("eventForm").addEventListener("submit", function(event) {
-            event.preventDefault();
-            const newEvent = {
+        function convertTo12HourFormat(time24) {
+            const [hours, minutes] = time24.split(":");
+            let hours12 = parseInt(hours);
+            const ampm = hours12 >= 12 ? "pm" : "am";
+            hours12 = hours12 % 12 || 12;
+            return `${hours12}:${minutes}${ampm}`;
+        }
+        
+        document.querySelector("form").addEventListener("submit", function(e) {
+            e.preventDefault();
+            
+            const event = {
                 name: document.getElementById("eventName").value,
                 date: document.getElementById("eventDate").value,
-                time: document.getElementById("eventTime").value,
+                time: convertTo12HourFormat(document.getElementById("eventTime").value),
                 location: document.getElementById("eventLocation").value,
                 description: document.getElementById("eventDescription").value,
-                category: document.getElementById("eventCategory").value
+                category: document.getElementById("eventCategory").value.toLowerCase()
             };
+            
             let events = JSON.parse(localStorage.getItem("events")) || [];
-            events.push(newEvent);
+            events.push(event);
             localStorage.setItem("events", JSON.stringify(events));
-            alert("Event added successfully!");
+            
             window.location.href = "events.html";
         });
     </script>
