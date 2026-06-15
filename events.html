@@ -123,7 +123,9 @@ window.onload = function() {
 			<p><strong>Date:</strong> ${event.date}</p>
 			<p><strong>Time:</strong> ${event.time}</p>
 			<p><strong>Location:</strong> ${event.location}</p>
-			<p><strong>Description:</strong> ${event.description}</p>
+			<p><strong>Website:</strong>
+			<a href="${event.website}" target="_blank" rel="noopener">
+			Visit Event Website</a></p>
 		`;
 		container.appendChild(card);
 	});

@@ -86,12 +86,8 @@
                     <input type="text" id="eventLocation" name="eventLocation" required>
                 </div>
                 <div class="form-group">
-                <label for="eventDescription">Description</label>
-                <textarea id="eventDescription"
-                        name="eventDescription"
-                        rows="4"
-                        placeholder="Enter a brief event description..."
-                        required></textarea>
+                    <label for="eventWebsite">Website Link</label>
+                    <input type="url" id="eventWebsite" name="eventWebsite" placeholder="https://example.com" required>
                 </div>
                 <div class="form-group">
                     <label for="eventCategory">Category</label>
@@ -125,7 +121,7 @@
                 date: document.getElementById("eventDate").value,
                 time: convertTo12HourFormat(document.getElementById("eventTime").value),
                 location: document.getElementById("eventLocation").value,
-                description: document.getElementById("eventDescription").value,
+                website: document.getElementById("eventWebsite").value,
                 category: document.getElementById("eventCategory").value.toLowerCase()
             };
             
