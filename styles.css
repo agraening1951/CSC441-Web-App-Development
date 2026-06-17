@@ -4,6 +4,43 @@ body {
     padding: 0;
     background-color: white;
 }
+.calendar-title{
+    text-align: center;
+    color: white;
+    margin-bottom: 20px;
+}
+.calendar-table{
+    width: 90%;
+    margin: auto;
+    border-collapse: collapse;
+    background-color: white;
+}
+.calendar-table th{
+    background-color: #0fb09a;
+    color:white;
+    padding: 12px;
+    border: 1px solid #dbdbdb;
+}
+.calendar-table td{
+    width: 14%;
+    height: 100px;
+    vertical-align: top;
+    padding: auto;
+    border: 1px solid #DBDBDB;
+    font-weight: bold;
+}
+.calendar-table p{
+    font-weight: normal;
+    font-size: 14px;
+    margin: 5px 0;
+}
+.calendar-link{
+text-align: center;
+margin-top: auto;
+}
+.event-day{
+background-color: #F2DBE0;
+}
 header {
     background-color: #0fb09a;
     color: #333;
@@ -48,7 +85,7 @@ button:hover {
     background-color: #DBDBDB;
 }
 footer {
-    background-color: #E9F0E9;
+    background-color: #F2DBE0;
     color: #333;
     text-align: center;
     padding: 10px 0;
