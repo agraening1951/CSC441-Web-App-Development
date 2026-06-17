@@ -66,7 +66,8 @@
     <div class="form-container">
         <h2>Add a New Event</h2>
         <p>Submit a local San Diego event.</p>
-        <form action="/add-event" method="POST">
+        <p>Submit through the local Express server at <strong>http://localhost:8080</strong>.</p>
+        <form id="addEventForm" action="http://localhost:8080/api/events" method="POST">
             <fieldset>
                 <legend>Event Information</legend>
                 <div class="form-group">
@@ -86,16 +87,24 @@
                     <input type="text" id="eventLocation" name="eventLocation" required>
                 </div>
                 <div class="form-group">
+                    <label for="eventDescription">Description</label>
+                    <textarea id="eventDescription" name="eventDescription" rows="4" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="eventNotes">Additional Notes</label>
+                    <textarea id="eventNotes" name="eventNotes" rows="4" required></textarea>
+                </div>
+                <div class="form-group">
                     <label for="eventWebsite">Website Link</label>
                     <input type="url" id="eventWebsite" name="eventWebsite" placeholder="https://example.com" required>
                 </div>
                 <div class="form-group">
                     <label for="eventCategory">Category</label>
                     <select id="eventCategory" name="eventCategory" required>
-                        <option value="Movies">Movies</option>
-                        <option value="Surfing">Surfing</option>
-                        <option value="Hiking">Hiking</option>
-                        <option value="Farmer's Market">Farmer's Market</option>
+                        <option value="movies">Movies</option>
+                        <option value="surfing">Surfing</option>
+                        <option value="hiking">Hiking</option>
+                        <option value="markets">Farmer's Market</option>
                     </select>
                 </div>
                 <button type="submit">Add Event</button>
@@ -103,32 +112,35 @@
         </form>
         <a class="back-link" href="events.html">Back to Events Page</a>
     </div>
-    
     <script>
-        function convertTo12HourFormat(time24) {
-            const [hours, minutes] = time24.split(":");
-            let hours12 = parseInt(hours);
-            const ampm = hours12 >= 12 ? "pm" : "am";
-            hours12 = hours12 % 12 || 12;
-            return `${hours12}:${minutes}${ampm}`;
-        }
-        
-        document.querySelector("form").addEventListener("submit", function(e) {
-            e.preventDefault();
-            
-            const event = {
-                name: document.getElementById("eventName").value,
-                date: document.getElementById("eventDate").value,
-                time: convertTo12HourFormat(document.getElementById("eventTime").value),
-                location: document.getElementById("eventLocation").value,
-                website: document.getElementById("eventWebsite").value,
-                category: document.getElementById("eventCategory").value.toLowerCase()
-            };
-            
-            let events = JSON.parse(localStorage.getItem("events")) || [];
-            events.push(event);
-            localStorage.setItem("events", JSON.stringify(events));
-            
+        const form = document.getElementById("addEventForm");
+
+        form.addEventListener("submit", async function(event) {
+            event.preventDefault();
+
+            const formData = new URLSearchParams({
+                eventName: document.getElementById("eventName").value,
+                eventDate: document.getElementById("eventDate").value,
+                eventTime: document.getElementById("eventTime").value,
+                eventLocation: document.getElementById("eventLocation").value,
+                eventDescription: document.getElementById("eventDescription").value,
+                eventNotes: document.getElementById("eventNotes").value,
+                eventWebsite: document.getElementById("eventWebsite").value,
+                eventCategory: document.getElementById("eventCategory").value
+            });
+
+            const response = await fetch(form.action, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: formData.toString()
+            });
+
+            if (!response.ok) {
+                throw new Error("Unable to save event.");
+            }
+
             window.location.href = "events.html";
         });
     </script>

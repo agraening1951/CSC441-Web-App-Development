@@ -32,6 +32,8 @@
 				<p><strong>Date:</strong> June 20</p>
 				<p><strong>Time:</strong> 5:30pm</p>
 				<p><strong>Location:</strong> Waterfront Park, Downtown</p>
+				<p><strong>Description:</strong> An outdoor movie night for families and friends in the heart of downtown San Diego.</p>
+				<p><strong>Additional Notes:</strong> Bring a blanket or low chair and arrive early for a good spot.</p>
 
 				<p><strong>Website:</strong>
         		<a href="https://www.summermoviesinthepark.com/events-grid/" target="_blank" rel="noopener">
@@ -43,6 +45,8 @@
 				<p><strong>Date:</strong> June 27</p>
 				<p><strong>Time:</strong> 5:30pm</p>
 				<p><strong>Location:</strong> Taylor Library, Pacific Beach</p>
+				<p><strong>Description:</strong> A free community movie screening with a relaxed evening atmosphere near the beach.</p>
+				<p><strong>Additional Notes:</strong> Food and drinks are limited, so plan ahead before you arrive.</p>
 				
 				<p><strong>Website:</strong>
         		<a href="https://www.summermoviesinthepark.com/events-grid/" target="_blank" rel="noopener">
@@ -54,6 +58,8 @@
 				<p><strong>Date:</strong> June 27</p>
 				<p><strong>Time:</strong> 8:00am-10am</p>
 				<p><strong>Location:</strong> Oceanside Harbor, South Jetty</p>
+				<p><strong>Description:</strong> A surf session and community gathering supporting women veterans and local ocean sports.</p>
+				<p><strong>Additional Notes:</strong> Check conditions before heading out and bring any gear you need for the session.</p>
 				<p><strong>Website:</strong>
         		<a href="https://linktr.ee/WomenVeteransSURFProject?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAdGRzdgST-6NleHRuA2FlbQIxMQBzcnRjBmFwcF9pZA81NjcwNjczNDMzNTI0MjcAAafSB4C5wDOWDjbvgKlNqAoMplSgk9GhYpfnuDpjDdqo0utwq0uRQLIbdujKdQ_aem_COEt8Wuzpmm7OArBfXEvvg" target="_blank" rel="noopener">
             	Visit Event Website</a></p>
@@ -64,6 +70,8 @@
 				<p><strong>Date:</strong> June 22</p>
 				<p><strong>Time:</strong> 2:00pm</p>
 				<p><strong>Location:</strong> Chollas Lake Park</p>
+				<p><strong>Description:</strong> A guided hiking experience that explores local trails with a park ranger.</p>
+				<p><strong>Additional Notes:</strong> Wear comfortable shoes and bring water for the walk.</p>
 				<p><strong>Website:</strong>
 				<a href="https://www.meetup.com/sandiegodayhikers/?msockid=30a04a0765d86a5d06785c88644a6b31
 				" target="_blank" rel="noopener">
@@ -75,6 +83,8 @@
 				<p><strong>Date:</strong> June 27</p>
 				<p><strong>Time:</strong> 1:00 PM</p>
 				<p><strong>Location:</strong> North Clairemont</p>
+				<p><strong>Description:</strong> A neighborhood hike through one of San Diego’s popular open space parks.</p>
+				<p><strong>Additional Notes:</strong> Meet at the trailhead a few minutes early so the group can start together.</p>
 				<p><strong>Website:</strong>
 				<a href="https://www.meetup.com/sandiegodayhikers/?msockid=30a04a0765d86a5d06785c88644a6b31
 				" target="_blank" rel="noopener">
@@ -86,6 +96,8 @@
 				<p><strong>Date:</strong> June 23</p>
 				<p><strong>Time:</strong> 2:30pm-6pm</p>
 				<p><strong>Location:</strong> Coronado</p>
+				<p><strong>Description:</strong> A weekly market featuring produce, prepared foods, and local vendors.</p>
+				<p><strong>Additional Notes:</strong> Bring reusable bags and consider arriving earlier for the best selection.</p>
 				<p><strong>Website:</strong>
 				<a href="https://www.sandiegocounty.gov/content/sdc/awm/farmers_markets.html" target="_blank" rel="noopener">
 				Visit Event Website</a></p>
@@ -96,6 +108,8 @@
 				<p><strong>Date:</strong> June 24</p>
 				<p><strong>Time:</strong> 9:30am-1:30pm</p>
 				<p><strong>Location:</strong> Little Italy</p>
+				<p><strong>Description:</strong> A lively market with fresh produce, artisan foods, and neighborhood shopping.</p>
+				<p><strong>Additional Notes:</strong> Parking can fill quickly, so plan extra time if you are driving in.</p>
 				<p><strong>Website:</strong>
 				<a href="https://www.sandiegocounty.gov/content/sdc/awm/farmers_markets.html" target="_blank" rel="noopener">
 				Visit Event Website</a></p>
@@ -106,6 +120,8 @@
 				<p><strong>Date:</strong> June 28</p>
 				<p><strong>Time:</strong> 9:00am-2:00pm</p>
 				<p><strong>Location:</strong> La Jolla</p>
+				<p><strong>Description:</strong> A community market with local produce, baked goods, and specialty vendors.</p>
+				<p><strong>Additional Notes:</strong> Expect a busy crowd around midday and bring cash for smaller vendors.</p>
 				<p><strong>Website:</strong>
 				<a href="https://www.sandiegocounty.gov/content/sdc/awm/farmers_markets.html" target="_blank" rel="noopener">
 				Visit Event Website</a></p>
@@ -116,25 +132,33 @@
 	</main>
 
 	<script>
-window.onload = function() {
-
-	const savedEvents = JSON.parse(localStorage.getItem("events")) || [];
+window.onload = async function() {
 	const container = document.getElementById("newEvents");
+	const apiBase = "http://localhost:8080";
 
-	savedEvents.forEach(event => {
-		const card = document.createElement("div");
-		card.className = `event-card ${event.category}`;
-		card.innerHTML = `
-			<h2>${event.name}</h2>
-			<p><strong>Date:</strong> ${event.date}</p>
-			<p><strong>Time:</strong> ${event.time}</p>
-			<p><strong>Location:</strong> ${event.location}</p>
-			<p><strong>Website:</strong>
-			<a href="${event.website}" target="_blank" rel="noopener">
-			Visit Event Website</a></p>
-		`;
-		container.appendChild(card);
-	});
+	try {
+		const response = await fetch(`${apiBase}/api/events`);
+		const savedEvents = await response.json();
+
+		savedEvents.forEach(event => {
+			const card = document.createElement("div");
+			card.className = `event-card ${event.category}`;
+			card.innerHTML = `
+				<h2>${event.name}</h2>
+				<p><strong>Date:</strong> ${event.date}</p>
+				<p><strong>Time:</strong> ${event.time}</p>
+				<p><strong>Location:</strong> ${event.location}</p>
+				<p><strong>Description:</strong> ${event.description || "No description provided."}</p>
+				<p><strong>Additional Notes:</strong> ${event.additionalNotes || "No additional notes provided."}</p>
+				<p><strong>Website:</strong>
+				<a href="${event.website}" target="_blank" rel="noopener">
+				Visit Event Website</a></p>
+			`;
+			container.appendChild(card);
+		});
+	} catch (error) {
+		container.innerHTML = "<p>Unable to load added events.</p>";
+	}
 };
 </script>
 </body>
