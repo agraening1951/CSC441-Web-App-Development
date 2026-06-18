@@ -1,6 +1,7 @@
 const express = require("express");
 const path = require("path");
 const { MongoClient } = require("mongodb");
+const mysql = require ("mysql2");
 
 const app = express();
 const PORT = 8080;
@@ -11,6 +12,42 @@ const COLLECTION_NAME = "events";
 let eventsCollection;
 let usingMongoDb = false;
 let fallbackEvents = [];
+
+const connection = mysql.createConnection({
+host: "localhost",
+user: "root",
+password: "NewPassword123!",
+multipleStatements: true
+});
+connection.connect(function(error){
+	if(error){
+		console.log("Error connecting to MySQL", error);
+		return;
+	}
+	console.log("connected to MySQL");
+});
+const setupDatabase = `
+CREATE DATABASE IF NOT EXISTS event_db;
+USE event_db;
+CREATE TABLE IF NOT EXISTS event_categories (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    category_name VARCHAR(50) UNIQUE
+);
+INSERT IGNORE INTO event_categories (id, category_name)
+VALUES
+    (1, 'Movies'),
+    (2, 'Surfing'),
+    (3, 'Hiking'),
+    (4, 'Farmers Market'),
+    (5, 'Other');
+`;
+connection.query(setupDatabase, function(error){
+	if(error){
+		console.log("error setting up MySQL database", error);
+		return;
+	}
+	console.log("MySQL database is ready");
+});
 
 function convertTo12HourFormat(time24) {
     if (!time24) {
@@ -101,6 +138,18 @@ app.post("/api/events", async function(req, res) {
     }
 });
 
+app.get("/api/categories", function(req, res) {
+    const selectQuery = "SELECT * FROM event_db.event_categories";
+    connection.query(selectQuery, function(error, results) {
+        if (error) {
+            console.log("Error loading MySQL categories", error);
+            res.status(500).json({ error: "Error loading categories." });
+            return;
+        }
+        res.json(results);
+    });
+});
+
 app.delete("/api/events", async function(req, res) {
     try {
         const eventName = req.query.name;
@@ -145,5 +194,4 @@ startServer().catch(function(error) {
     console.error("Failed to start server:", error);
     process.exit(1);
 });
-
 

@@ -35,54 +35,48 @@
             <tbody>
                 <tr>
                     <td></td>
-                    <td>1</td>
-                    <td>2</td>
-                    <td>3</td>
-                    <td>4</td>
-                    <td>5</td>
-                    <td>6</td>
+                    <td id="day-1">1</td>
+                    <td id="day-2">2</td>
+                    <td id="day-3">3</td>
+                    <td id="day-4">4</td>
+                    <td id="day-5">5</td>
+                    <td id="day-6">6</td>
                 </tr>
                 <tr>
-                    <td>7</td>
-                    <td>8</td>
-                    <td>9</td>
-                    <td>10</td>
-                    <td>11</td>
-                    <td>12</td>
-                    <td>13</td>
+                    <td id="day-7">7</td>
+                    <td id="day-8">8</td>
+                    <td id="day-9">9</td>
+                    <td id="day-10">10</td>
+                    <td id="day-11">11</td>
+                    <td id="day-12">12</td>
+                    <td id="day-13">13</td>
                 </tr>
                 <tr>
-                    <td>14</td>
-                    <td>15</td>
-                    <td>16</td>
-                    <td>17</td>
-                    <td>18</td>
-                    <td>19</td>
-                    <td class="event-day">20<p>Movie Night</p></td>
+                    <td id="day-14">14</td>
+                    <td id="day-15">15</td>
+                    <td id="day-16">16</td>
+                    <td id="day-17">17</td>
+                    <td id="day-18">18</td>
+                    <td id="day-19">19</td>
+                    <td id="day-20" class="event-day">20<p>Movie Night</p></td>
                 </tr>
                 <tr>
-                    <td>21</td>
-                    <td class="event-day">22<p>Hiking</p></td>
-                    <td class="event-day">23
-                        <p>Farmer's Market</p>
-                    </td>
-                     <td class="event-day">24
-                        <p>Farmer's Market</p>
-                    </td>
-                    <td>25</td>
-                    <td>26</td>
-                    <td class="event-day">27
+                    <td id="day-21">21</td>
+                    <td id="day-22" class="event-day">22<p>Hiking</p></td>
+                    <td id="day-23" class="event-day">23<p>Farmer's Market</p></td>
+                    <td id="day-24" class="event-day">24<p>Farmer's Market</p></td>
+                    <td id="day-25">25</td>
+                    <td id="day-26">26</td>
+                    <td id="day-27" class="event-day">27
                         <p>Women's Vet Surfing</p>
                         <p>Hiking</p>
                         <p>Movie Night</p>
                     </td>
                 </tr>
                    <tr>
-                     <td class="event-day">28
-                        <p>Farmer's Market</p>
-                    </td>
-                    <td>29</td>
-                    <td>30</td>
+                    <td id="day-28" class="event-day">28<p>Farmer's Market</p></td>
+                    <td id="day-29">29</td>
+                    <td id="day-30">30</td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -90,7 +84,41 @@
                 </tr>
             </tbody>
         </table>
-        <p class="calendar-link">Please see the <a href="events.html">events</a> page for more details</p>
+        <h3>Event Categories stored in MySQL</h3>
+        <ul id="categoryList"></ul>
     </main>
+<script>
+window.onload = async function() {
+    try {
+        const response = await fetch("http://localhost:8080/api/events");
+        const events = await response.json();
+        events.forEach(function(event) {
+            const date = new Date(event.date);
+            const day = date.getUTCDate();
+            const cell = document.getElementById("day-" + day);
+            if (cell) {
+                cell.classList.add("event-day");
+                const eventText = document.createElement("p");
+                eventText.textContent = event.name;
+                cell.appendChild(eventText);
+            }
+        });
+    } catch (error) {
+        console.log("Error loading MongoDB events", error);
+    }
+    const categoryList = document.getElementById("categoryList");
+    try {
+        const categoryResponse = await fetch("http://localhost:8080/api/categories");
+        const categories = await categoryResponse.json();
+        categories.forEach(function(category) {
+            const li = document.createElement("li");
+            li.textContent = category.category_name;
+            categoryList.appendChild(li);
+        });
+    } catch (error) {
+        categoryList.innerHTML = "<li>Error loading MySQL categories.</li>";
+    }
+};
+</script>
 </body>
 </html>

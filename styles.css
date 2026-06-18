@@ -6,27 +6,27 @@ body {
 }
 .calendar-title{
     text-align: center;
-    color: white;
+    color: #0fb09a;
     margin-bottom: 20px;
 }
 .calendar-table{
     width: 90%;
     margin: auto;
     border-collapse: collapse;
-    background-color: white;
+    background-color: #dbdbdb;
 }
 .calendar-table th{
     background-color: #0fb09a;
     color:white;
     padding: 12px;
-    border: 1px solid #dbdbdb;
+    border: 1px solid white;
 }
 .calendar-table td{
     width: 14%;
     height: 100px;
     vertical-align: top;
     padding: 10px;
-    border: 1px solid #DBDBDB;
+    border: 1px solid white;
     font-weight: bold;
 }
 .calendar-table p{
