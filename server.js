@@ -16,7 +16,7 @@ let fallbackEvents = [];
 const connection = mysql.createConnection({
 host: "localhost",
 user: "root",
-password: "NewPassword123!",
+password: "NewStrongPassword!23",
 multipleStatements: true
 });
 connection.connect(function(error){
